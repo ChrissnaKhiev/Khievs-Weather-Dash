@@ -1,0 +1,46 @@
+.row {
+    margin-left: 5px;
+}
+hr.line {
+    margin-top: 15px;
+}
+.btn {
+    margin: 5px;
+    border-radius: 0.375rem;
+}
+.borderBox {
+    border: 1px solid black;
+    padding-left: 0px;
+}
+.spaceCurrentWeather {
+    padding: 5px;
+}
+.cardBg {
+    background-color: rgb(47, 47, 66);
+    color: white;
+}
+.margR {
+    margin-right: 15px;
+}
+.noPL {
+    padding-left: 0%;
+}
+.noML {
+    margin-left: 0px;
+}
+.widthP {
+    width: 87%;
+}
+.btn-primary {
+    background-color: rgb(124, 170, 223);
+    border-color: rgb(124, 170, 223);
+}
+.float-right {
+    display: block;
+    text-align: right;
+    background: linear-gradient(to right, rgb(124, 170, 223), rgb(13, 42, 75));
+    color: white;
+}
+.float-right span {
+    margin-right: 25%;
+}
