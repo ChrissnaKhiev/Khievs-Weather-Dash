@@ -25,15 +25,15 @@
                     <button type="button" class="btn btn-secondary rounded">Atlanta</button>
                 </div>
             </div>
-            <div class="col-9">
+            <div class="col-9" id="selectedWeather">
                     <!-- <div class="container borderBox noML noPL widthP mG">
-                        <h1 class="spaceCurrentWeather">Atlanta Placeholder</h1>
+                        <h1 style="display:inline;" class="spaceCurrentWeather">Atlanta Placeholder</h1><img src="http://openweathermap.org/img/wn/01n@2x.png" style="float:right;"alt="${response.weather[0].description}"/>
                         <p class="spaceCurrentWeather">Temp: </p>
                         <p class="spaceCurrentWeather">Wind: </p>
                         <p class="spaceCurrentWeather">Humidity: </p>
                     </div> -->
                     <h3 class="noPL mG">5-Day Forecast:</h2>
-                    <div class="row container noPL noML widthP">
+                    <div class="row container noPL noML widthP" id="cards">
                         <!-- <div class="col-2 cardBg">
                             <h3 class="spaceCurrentWeather">Date</h3>
                             <p class="spaceCurrentWeather">&#127774</p>
