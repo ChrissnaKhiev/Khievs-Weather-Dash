@@ -2,26 +2,56 @@ var key = '8f0ea131a44aed6e2978f41f424ad93a';
 var lat = '';
 var lon = '';
 var bigCard = document.getElementById('selectedWeather');
-var city = '';
+var city = 'Atlanta';
+var cards = '';
 
 
-navigator.geolocation.getCurrentPosition(position => {
-    let { latitude: lat, longitude: lon } = position.coords;
 
-    console.log(lat);
-    console.log(lon);
-fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}&units=imperial`)
+
+fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=imperial`)
     .then(function (response) {
         return(response.json())
     })
     .then(function (data) {
         genSelectedWeather(data)
     })
-})
+
 
 function genSelectedWeather(response) {
     console.log(response);
-    bigCard.innerHTML = `<div class="container borderBox noML noPL widthP mG"><h1 style="display:inline;" class="spaceCurrentWeather">${response.name}</h1><img src="http://openweathermap.org/img/wn/${response.weather[0].icon}@4x.png" style="float:right;"alt="${response.weather[0].description}"/><p class="spaceCurrentWeather">Temp: ${response.main.temp}&deg;C</p><p class="spaceCurrentWeather">Wind: ${response.wind.speed} MPH</p><p class="spaceCurrentWeather">Humidity: ${response.main.humidity} %</p>`;
+    bigCard.innerHTML = `<div class="container borderBox noML noPL widthP mG"><h1 style="display:inline;" class="spaceCurrentWeather">${response.name}</h1><img src="http://openweathermap.org/img/wn/${response.weather[0].icon}@4x.png" style="float:right;"alt="${response.weather[0].description}"/><p class="spaceCurrentWeather">Temp: ${response.main.temp}&deg;F</p><p class="spaceCurrentWeather">Wind: ${response.wind.speed} MPH</p><p class="spaceCurrentWeather">Humidity: ${response.main.humidity} %</p></div><h3 class="noPL mG">5-Day Forecast:</h2>
+    <div class="row container noPL noML widthP" id="cards"></div>`;
+
+    cards = document.getElementById('cards');
 }
 
-fetch(`api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${key}`)
+fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${key}&units=imperial`)
+    .then(function (response) {
+        return(response.json())
+})
+    .then(function (data) {
+        genSelectedWeatherCards(data)
+    
+})
+
+function genSelectedWeatherCards(response) {
+    console.log(response)
+
+    //https://bobbyhadz.com/blog/react-map-nested-array
+    cards.innerHTML = response.list.map((list, index) => {
+        if (index%8 == 0) //returns every 8th index and 0
+            return `<div class="col-2 cardBg">
+            <h5 class="spaceCurrentWeather">${grabDate(list.dt_txt)}</h5>
+            <img src="http://openweathermap.org/img/wn/${list.weather[0].icon}.png" class="spaceCurrentWeather" alt="${list.weather[0].description}"/>
+            <p class="spaceCurrentWeather">Temp: ${list.main.temp}&deg;F</p>
+            <p class="spaceCurrentWeather">Wind: ${list.wind.speed}MPH</p>
+            <p class="spaceCurrentWeather">Humidity: ${list.main.humidity}%</p>
+            </div>`;
+    }).join('');//removes commas on join
+}
+
+function grabDate(dateText) {
+    var list = dateText.substring(0, 10).split('-');
+    console.log(list);
+    return list[1] + '-' + list[2] + '-' + list [0];
+}
