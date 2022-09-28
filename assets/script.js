@@ -6,15 +6,14 @@ var city = 'Atlanta';
 var cards = '';
 var searchBtn = document.getElementById('button');
 var btnCon = '';
+var historyBtn = document.getElementById('histBtn');
 
 function generateSearch() {
     var citySearch = document.getElementById('search').value;
     city = citySearch;
-    console.log(citySearch);
-    console.log(city);
-    init();
+    init(city);
     btnCon = document.getElementById('btnCon');
-    var btnConHTML = `<button type="button" class="btn btn-secondary rounded">${city}</button>`;
+    var btnConHTML = `<button id='histBtn' onclick="generateSearch()" type="button" class="btn btn-secondary rounded">` + city + `</button>`;
     genHistory(btnCon, btnConHTML);
 }
 
@@ -26,15 +25,17 @@ function genHistory(e, str) {
     e.appendChild(div.children[0]);
 }
 
-function init() {
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=imperial`)
+function init(city) {
+    var cityLoad = city;
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityLoad}&appid=${key}&units=imperial`)
         .then(function (response) {
             return(response.json())
         })
         .then(function (data) {
+            localStorage.setItem(cityLoad, JSON.stringify(data)),
             genSelectedWeather(data)
         })
-    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${key}&units=imperial`)
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityLoad}&appid=${key}&units=imperial`)
         .then(function (response) {
             return(response.json())
     })
@@ -71,5 +72,5 @@ function grabDate(dateText) {
     var list = dateText.substring(0, 10).split('-');
     return list[1] + '-' + list[2] + '-' + list [0];
 }
-init();
+init(city);
 searchBtn.addEventListener('click', generateSearch);
