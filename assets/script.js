@@ -4,8 +4,8 @@ var lon = '';
 var bigCard = document.getElementById('selectedWeather');
 var city = 'Atlanta';
 var cards = '';
-
 var searchBtn = document.getElementById('button');
+var btnCon = '';
 
 function generateSearch() {
     var citySearch = document.getElementById('search').value;
@@ -13,7 +13,19 @@ function generateSearch() {
     console.log(citySearch);
     console.log(city);
     init();
+    btnCon = document.getElementById('btnCon');
+    var btnConHTML = `<button type="button" class="btn btn-secondary rounded">${city}</button>`;
+    genHistory(btnCon, btnConHTML);
 }
+
+function genHistory(e, str) {
+    var citySearch = document.getElementById('search').value;
+    city = citySearch;
+    var div = document.createElement('div');
+    div.innerHTML = str;
+    e.appendChild(div.children[0]);
+}
+
 function init() {
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=imperial`)
         .then(function (response) {
