@@ -5,17 +5,31 @@ var bigCard = document.getElementById('selectedWeather');
 var city = 'Atlanta';
 var cards = '';
 
+var searchBtn = document.getElementById('button');
 
-
-
-fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=imperial`)
-    .then(function (response) {
-        return(response.json())
+function generateSearch() {
+    var citySearch = document.getElementById('search').value;
+    city = citySearch;
+    console.log(citySearch);
+    console.log(city);
+    init();
+}
+function init() {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=imperial`)
+        .then(function (response) {
+            return(response.json())
+        })
+        .then(function (data) {
+            genSelectedWeather(data)
+        })
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${key}&units=imperial`)
+        .then(function (response) {
+            return(response.json())
     })
-    .then(function (data) {
-        genSelectedWeather(data)
+        .then(function (data) {
+            genSelectedWeatherCards(data)
     })
-
+}
 
 function genSelectedWeather(response) {
     console.log(response);
@@ -24,15 +38,6 @@ function genSelectedWeather(response) {
 
     cards = document.getElementById('cards');
 }
-
-fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${key}&units=imperial`)
-    .then(function (response) {
-        return(response.json())
-})
-    .then(function (data) {
-        genSelectedWeatherCards(data)
-    
-})
 
 function genSelectedWeatherCards(response) {
     console.log(response)
@@ -52,6 +57,7 @@ function genSelectedWeatherCards(response) {
 
 function grabDate(dateText) {
     var list = dateText.substring(0, 10).split('-');
-    console.log(list);
     return list[1] + '-' + list[2] + '-' + list [0];
 }
+init();
+searchBtn.addEventListener('click', generateSearch);
